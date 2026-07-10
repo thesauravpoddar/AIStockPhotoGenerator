@@ -5,8 +5,9 @@
 ### Option 1: Using Docker Compose (Recommended)
 
 ```bash
-# Set your OpenAI API key
+# Set your OpenAI API key as environment variable
 export MY_APP_KEY=sk-your-openai-api-key
+# If you do not use bash or zsh, you can set the environment variable in your shell's way
 
 # Build and run the application
 cd SpringAiDemo
@@ -68,7 +69,6 @@ The Dockerfile uses a multi-stage build approach:
 | Variable | Description | Required | Example |
 |----------|-------------|----------|---------|
 | `MY_APP_KEY` | OpenAI API Key | Yes | `sk-...` |
-| `JAVA_OPTS` | JVM options | No | `-Xmx512m -Xms256m` |
 
 ### Ports
 
@@ -82,45 +82,6 @@ docker run -d \
   -e MY_APP_KEY=sk-your-api-key \
   -v /local/logs:/app/logs \
   spring-ai-demo:latest
-```
-
-## Health Checks
-
-The container includes a built-in health check that:
-- Runs every 30 seconds
-- Starts after 40 seconds
-- Times out after 3 seconds
-- Retries 3 times before marking unhealthy
-
-Check health status:
-```bash
-docker ps  # Look for "healthy" or "unhealthy" status
-docker inspect spring-ai-demo --format='{{.State.Health.Status}}'
-```
-
-## Performance Tuning
-
-### Memory Settings
-
-Adjust `JAVA_OPTS` in docker-compose.yml:
-
-```yaml
-environment:
-  - JAVA_OPTS=-Xmx1024m -Xms512m  # For higher workloads
-```
-
-### Resource Limits
-
-Add to docker-compose.yml service:
-```yaml
-deploy:
-  resources:
-    limits:
-      cpus: '1'
-      memory: 1G
-    reservations:
-      cpus: '0.5'
-      memory: 512M
 ```
 
 ## Networking

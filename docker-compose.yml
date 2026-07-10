@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  spring-ai-demo-react:
+    build:
+      context: spring-ai-demo-react
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - spring-ai-demo
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080
+    restart: unless-stopped
+
+  spring-ai-demo:
+    build:
+      context: SpringAiDemo
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - MY_APP_KEY=${MY_APP_KEY}
+    restart: unless-stopped
